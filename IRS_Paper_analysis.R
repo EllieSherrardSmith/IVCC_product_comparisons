@@ -152,7 +152,7 @@ for(i in 1:2){
 ## Calculating cases per 1000 people averted
 
 cases_averted_fun = function(site,resistance_level,coverage){
-  #data1 = read.table(paste0('F:/Ellies_output_folder/IRS_paper_testrun/draw_0/IRS_paper_testrun_', site, '_0.txt'),header=TRUE)
+  
   #data1 = read.table(paste0('F:/Ellies_output_folder/IRS_paper_switchingRES_0/draw_0/IRS_paper_switchingRES_0_', site, '_0.txt'),header=TRUE)
   #data1 = read.table(paste0('F:/Ellies_output_folder/IRS_paper_switchingRES_10/draw_0/IRS_paper_switchingRES_10_', site, '_0.txt'),header=TRUE)
   #data1 = read.table(paste0('F:/Ellies_output_folder/IRS_paper_switchingRES_20/draw_0/IRS_paper_switchingRES_20_', site, '_0.txt'),header=TRUE)
@@ -165,8 +165,9 @@ cases_averted_fun = function(site,resistance_level,coverage){
   #data1 = read.table(paste0('F:/Ellies_output_folder/IRS_paper_switchingRES_90/draw_0/IRS_paper_switchingRES_90_', site, '_0.txt'),header=TRUE)
   #data1 = read.table(paste0('F:/Ellies_output_folder/IRS_paper_switchingRES_100/draw_0/IRS_paper_switchingRES_100_', site, '_0.txt'),header=TRUE)
   
-  data1 = read.table(paste0('F:/Ellies_output_folder/3d_res_cov_switching_irs/draw_0/3d_res_cov_switching_irs_', site, '_0.txt'),header=TRUE)
-                     ##Number of Cases
+  #data1 = read.table(paste0('F:/Ellies_output_folder/3d_res_cov_switching_IRS_perennial/draw_0/3d_res_cov_switching_irs_', site, '_0.txt'),header=TRUE)
+  data1 = read.table(paste0('F:/Ellies_output_folder/3d_res_cov_switching_IRS_highly_seasonal/draw_0/3d_res_cov_switching_IRS_highly_seasonal_', site, '_0.txt'),header=TRUE)
+  ##Number of Cases
                      pyr_noRes = data1$clin_inc_all[data1$year==3]
                      pyr_res   = data1$clin_inc_all[data1$year==6]
                      actellic  = data1$clin_inc_all[data1$year==9]
@@ -183,11 +184,30 @@ cases_averted_fun = function(site,resistance_level,coverage){
                      
 }
 
+sites_temp = read.csv("F:/IRS_PAPER_SWITCHING_10PC_RESISTANCE.csv",header=TRUE)
+vals = c(sites_temp$site)
+data_store = array(dim=c(length(vals),8))
+colnames(data_store) = c("Pyrethroid_80%_no_resistance",
+                         "Pyrethroids_with_res",
+                         "Actellic",
+                         "Pyrethroid_80%_no_resistance_Cases_averted",
+                         "Pyrethroids_with_res_Cases_averted",
+                         "Actellic_Cases_averted",
+                         "resistance_level","llin_coverage_level")
+for(i in 1:length(vals)){
+  data_store[i,] <- cases_averted_fun(site=vals[i],100,NA)
+}
+data2 = as.data.frame(data_store)
+head(data2)
 
+write.csv(data2,"F:/IRS_PAPER SUMMARY_CASES_AVERTED/Data_summary_temp.csv")
+
+
+##For 3d data
 vals = c(1:441)
 resistance = rep(seq(0,1,by=0.05),20)
 coverage = rep(seq(0,1,by=0.05),each=20)
-#vals = c(4901:4911)
+
 data_store = array(dim=c(length(vals),8))
 colnames(data_store) = c("Pyrethroid_80%_no_resistance",
                          "Pyrethroids_with_res",
@@ -273,28 +293,28 @@ topo.colors_Rev = function (n, alpha = 1)
 filled.contour(x, 
                y, 
                z = matrix(nrow=21,ncol=21,data=data2$Pyrethroids_with_res_Cases_averted),
-               color = topo.colors_Rev,
+               color = heat.colors,
                plot.title = title(main = "Cases per 1000 per year averted with Pyrethroid IRS (80% cover)",
                                   xlab = "Level of resistance (0 = no resistant mosquitoes, 1 = all resistant mosquitoes)", 
                                   ylab = "LLIN coverage",cex.lab=1.5),
                plot.axes = { axis(1, seq(0, 1, by = 0.05))
                  axis(2, seq(0, 1, by = 0.05)) },
-               nlevels = 17,
-               levels=c(0.37,0.38,0.39,0.40,0.41,0.42,0.43,0.44,seq(0.441,0.449,0.001),0.45),
+               nlevels = 10,
+               levels=c(0.43,0.45,0.47,0.48,seq(0.487,0.4875,0.0001),0.50),
                key.title = title(main = "", cex.main=0.8))  # maybe also asp = 1
 
 
 filled.contour(x, 
                y, 
                z = matrix(nrow=21,ncol=21,data=data2$Actellic_Cases_averted),
-               color = topo.colors_Rev,
+               color = heat.colors,
                plot.title = title(main = "Cases per 1000 per year averted with Actellic IRS (80% cover)",
                                   xlab = "Level of resistance (0 = no resistant mosquitoes, 1 = all resistant mosquitoes)", 
                                   ylab = "LLIN coverage",cex.lab=1.5),
                plot.axes = { axis(1, seq(0, 1, by = 0.05))
                  axis(2, seq(0, 1, by = 0.05)) },
-               nlevels = 14,
-               levels=c(0.37,0.38,0.39,0.40,0.41,0.42,0.43,0.44,seq(0.446,0.447,0.0002),0.45),
+               nlevels = 10,
+               levels=c(0.43,0.45,0.47,0.48,seq(0.487,0.4875,0.0001),0.50),
                key.title = title(main = "", cex.main=0.8))  # maybe also asp = 1
 
 
