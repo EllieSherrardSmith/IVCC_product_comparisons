@@ -166,7 +166,7 @@ cases_averted_fun = function(site,resistance_level,coverage){
   #data1 = read.table(paste0('F:/Ellies_output_folder/IRS_paper_switchingRES_100/draw_0/IRS_paper_switchingRES_100_', site, '_0.txt'),header=TRUE)
   
   #data1 = read.table(paste0('F:/Ellies_output_folder/3d_res_cov_switching_IRS_perennial/draw_0/3d_res_cov_switching_irs_', site, '_0.txt'),header=TRUE)
-  data1 = read.table(paste0('F:/Ellies_output_folder/3d_res_cov_switching_IRS_highly_seasonal/draw_0/3d_res_cov_switching_IRS_highly_seasonal_', site, '_0.txt'),header=TRUE)
+  #data1 = read.table(paste0('F:/Ellies_output_folder/3d_res_cov_switching_IRS_highly_seasonal/draw_0/3d_res_cov_switching_IRS_highly_seasonal_', site, '_0.txt'),header=TRUE)
   ##Number of Cases
                      pyr_noRes = data1$clin_inc_all[data1$year==3]
                      pyr_res   = data1$clin_inc_all[data1$year==6]
@@ -195,12 +195,12 @@ colnames(data_store) = c("Pyrethroid_80%_no_resistance",
                          "Actellic_Cases_averted",
                          "resistance_level","llin_coverage_level")
 for(i in 1:length(vals)){
-  data_store[i,] <- cases_averted_fun(site=vals[i],100,NA)
+  data_store[i,] <- cases_averted_fun(site=vals[i],0,NA)
 }
 data2 = as.data.frame(data_store)
 head(data2)
 
-write.csv(data2,"F:/IRS_PAPER SUMMARY_CASES_AVERTED/Data_summary_temp.csv")
+write.csv(data2,"F:/IRS_paper_summary_cases_averted/Data_summary_temp.csv")
 
 
 ##For 3d data
