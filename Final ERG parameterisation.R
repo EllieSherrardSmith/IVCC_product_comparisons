@@ -5,7 +5,7 @@ require(lme4)
 require(RColorBrewer)
 require(scales)
 
-is.pbo = 0 #says whether pbo net (0 = standard, 1= PBO, 2= G2 interceptor)
+is.pbo = 1 #says whether pbo net (0 = standard, 1= PBO, 2= G2 interceptor)
 species = 1 #1 = gambiae ss, 2=arabiensis , 3=funestus
 metric = 1 #1 = best guess, 2= lower 95% confidence interval 3 upper
 

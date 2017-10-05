@@ -55,7 +55,7 @@ Run_seas<-function(site,
 inp <- read.csv("p:/G2_interceptor_RCT_site_options_input_MODEL1.csv",header=TRUE)
 names(inp)
 
-for(i in 9){
+for(i in 3:9){
   Run_seas(site = inp[i,1],
            ITN = inp[i,2], 
            
@@ -67,14 +67,14 @@ for(i in 9){
            itn_kill_fun_2 = inp[i,14], itn_kill_gamb_ss_2 = inp[i,15], itn_kill_arab_2 = inp[i,16],
            itn_halflife_2 = inp[i,17],
            
-           run_name="G2_Locations")
+           run_name="G2_Locations2")
   
 }
 
 
 
 inp2 <- read.csv("p:/G2_interceptor_RCT_site_options_input_noChangeNetType.csv",header=TRUE)
-for(i in 9){
+for(i in 1:9){
   Run_seas(site = inp2[i,1],
            ITN = inp2[i,2], 
            
@@ -86,36 +86,36 @@ for(i in 9){
            itn_kill_fun_2 = inp2[i,14], itn_kill_gamb_ss_2 = inp2[i,15], itn_kill_arab_2 = inp2[i,16],
            itn_halflife_2 = inp2[i,17],
            
-           run_name="G2_Locations_nochange")
+           run_name="G2_Locations_nochange2")
   
 }
 
-loc1 =  read.table("F:\\Ellies_output_folder\\G2_Locations\\draw_0\\G2_Locations_1_0.txt",header = TRUE)
-loc2 =  read.table("F:\\Ellies_output_folder\\G2_Locations\\draw_0\\G2_Locations_2_0.txt",header = TRUE)
-loc3 =  read.table("F:\\Ellies_output_folder\\G2_Locations\\draw_0\\G2_Locations_3_0.txt",header = TRUE)
-loc4 =  read.table("F:\\Ellies_output_folder\\G2_Locations\\draw_0\\G2_Locations_4_0.txt",header = TRUE)
-loc5 =  read.table("F:\\Ellies_output_folder\\G2_Locations\\draw_0\\G2_Locations_5_0.txt",header = TRUE)
-loc6 =  read.table("F:\\Ellies_output_folder\\G2_Locations\\draw_0\\G2_Locations_6_0.txt",header = TRUE)
-loc7 =  read.table("F:\\Ellies_output_folder\\G2_Locations\\draw_0\\G2_Locations_7_0.txt",header = TRUE)
-loc8 =  read.table("F:\\Ellies_output_folder\\G2_Locations\\draw_0\\G2_Locations_8_0.txt",header = TRUE)
-loc9 =  read.table("F:\\Ellies_output_folder\\G2_Locations\\draw_0\\G2_Locations_9_0.txt",header = TRUE)
-loc1n = read.table("F:\\Ellies_output_folder\\G2_Locations_nochange\\draw_0\\G2_Locations_nochange_1_0.txt",header = TRUE)
-loc2n = read.table("F:\\Ellies_output_folder\\G2_Locations_nochange\\draw_0\\G2_Locations_nochange_2_0.txt",header = TRUE)
-loc3n = read.table("F:\\Ellies_output_folder\\G2_Locations_nochange\\draw_0\\G2_Locations_nochange_3_0.txt",header = TRUE)
-loc4n = read.table("F:\\Ellies_output_folder\\G2_Locations_nochange\\draw_0\\G2_Locations_nochange_4_0.txt",header = TRUE)
-loc5n = read.table("F:\\Ellies_output_folder\\G2_Locations_nochange\\draw_0\\G2_Locations_nochange_5_0.txt",header = TRUE)
-loc6n = read.table("F:\\Ellies_output_folder\\G2_Locations_nochange\\draw_0\\G2_Locations_nochange_6_0.txt",header = TRUE)
-loc7n = read.table("F:\\Ellies_output_folder\\G2_Locations_nochange\\draw_0\\G2_Locations_nochange_7_0.txt",header = TRUE)
-loc8n = read.table("F:\\Ellies_output_folder\\G2_Locations_nochange\\draw_0\\G2_Locations_nochange_8_0.txt",header = TRUE)
-loc9n = read.table("F:\\Ellies_output_folder\\G2_Locations_nochange\\draw_0\\G2_Locations_nochange_9_0.txt",header = TRUE)
+loc1 =  read.table("F:\\Ellies_output_folder\\G2_Locations2\\draw_0\\G2_Locations2_1_0.txt",header = TRUE)
+loc2 =  read.table("F:\\Ellies_output_folder\\G2_Locations2\\draw_0\\G2_Locations2_2_0.txt",header = TRUE)
+loc3 =  read.table("F:\\Ellies_output_folder\\G2_Locations2\\draw_0\\G2_Locations2_3_0.txt",header = TRUE)
+loc4 =  read.table("F:\\Ellies_output_folder\\G2_Locations2\\draw_0\\G2_Locations2_4_0.txt",header = TRUE)
+loc5 =  read.table("F:\\Ellies_output_folder\\G2_Locations2\\draw_0\\G2_Locations2_5_0.txt",header = TRUE)
+loc6 =  read.table("F:\\Ellies_output_folder\\G2_Locations2\\draw_0\\G2_Locations2_6_0.txt",header = TRUE)
+loc7 =  read.table("F:\\Ellies_output_folder\\G2_Locations2\\draw_0\\G2_Locations2_7_0.txt",header = TRUE)
+loc8 =  read.table("F:\\Ellies_output_folder\\G2_Locations2\\draw_0\\G2_Locations2_8_0.txt",header = TRUE)
+loc9 =  read.table("F:\\Ellies_output_folder\\G2_Locations2\\draw_0\\G2_Locations2_9_0.txt",header = TRUE)
+loc1n = read.table("F:\\Ellies_output_folder\\G2_Locations_nochange2\\draw_0\\G2_Locations_nochange2_1_0.txt",header = TRUE)
+loc2n = read.table("F:\\Ellies_output_folder\\G2_Locations_nochange2\\draw_0\\G2_Locations_nochange2_2_0.txt",header = TRUE)
+loc3n = read.table("F:\\Ellies_output_folder\\G2_Locations_nochange2\\draw_0\\G2_Locations_nochange2_3_0.txt",header = TRUE)
+loc4n = read.table("F:\\Ellies_output_folder\\G2_Locations_nochange2\\draw_0\\G2_Locations_nochange2_4_0.txt",header = TRUE)
+loc5n = read.table("F:\\Ellies_output_folder\\G2_Locations_nochange2\\draw_0\\G2_Locations_nochange2_5_0.txt",header = TRUE)
+loc6n = read.table("F:\\Ellies_output_folder\\G2_Locations_nochange2\\draw_0\\G2_Locations_nochange2_6_0.txt",header = TRUE)
+loc7n = read.table("F:\\Ellies_output_folder\\G2_Locations_nochange2\\draw_0\\G2_Locations_nochange2_7_0.txt",header = TRUE)
+loc8n = read.table("F:\\Ellies_output_folder\\G2_Locations_nochange2\\draw_0\\G2_Locations_nochange2_8_0.txt",header = TRUE)
+loc9n = read.table("F:\\Ellies_output_folder\\G2_Locations_nochange2\\draw_0\\G2_Locations_nochange2_9_0.txt",header = TRUE)
 
 par(mar=c(5,6,2,2))
 par(mfrow=c(2,2))
 plots_fun = function(data1, data2,outcome,cols,location,measure){
   plot(data1[,measure] ~ data1$year,pch="",ylim=c(0,ifelse(measure == 2,1,3)),
-       xlim=c(-3,6),ylab=outcome,yaxt="n",
-       xlab="Time (years)",cex.lab=1.6,cex.axis=1.6,xaxt="n")
-  axis(1,at=c(-3,0,3,6,9,12),cex.lab=1.6,cex.axis=1.6)
+       xlim=c(-1,3),ylab=outcome,yaxt="n",
+       xlab="Time years)",cex.lab=1.6,cex.axis=1.6,xaxt="n")
+  axis(1,at=c(-1,0,1,2,3),cex.lab=1.6,cex.axis=1.6)
   axis(2,las=2,at=seq(0,3,0.2),cex.lab=1.6,cex.axis=1.6)
   
   abline(v=0,lty=2)
@@ -132,7 +132,7 @@ plots_fun = function(data1, data2,outcome,cols,location,measure){
   #text(9,ifelse(measure==3,0.78,1.17),"G2 vs standard nets comparison",cex=1.2)
   
   if(measure == 2){
-    legend(-3,0.4,
+    legend(-0.3,0.4,
            title = "Net type",bty="n",
            legend=c("Standard net","Interceptor G2"),
            lty=c(2,1),cex=1.6)
@@ -235,3 +235,55 @@ calc_eff(loc6n,loc6)
 calc_eff(loc7n,loc7)
 calc_eff(loc8n,loc8)
 calc_eff(loc9n,loc9)
+
+
+
+#################################################
+## Calculating smoothed clinical incidence
+## Averaging over the year post intervention
+fun_clin = function(dat1n,dat1){
+  effect_inc = (dat1n$clin_inc_all_smooth -
+                  dat1$clin_inc_all_smooth) / 
+    dat1n$clin_inc_all_smooth
+  
+  per95 = quantile(effect_inc[262:365],c(0.05,0.95)) ## up to 2 years after smmoothed
+  means = mean(effect_inc[262:417])
+  
+  return(list(per95,
+              means))
+}
+
+fun_clin(loc1n,loc1) #Burkina1_Diebougou
+fun_clin(loc2n,loc2) #Burkina2_Danu
+fun_clin(loc3n,loc3) #Mali_Baroueli
+fun_clin(loc4n,loc4) #Mali_Bla
+fun_clin(loc5n,loc5) #Mali_Kati
+fun_clin(loc6n,loc6) #Mali_Koulikoro
+fun_clin(loc7n,loc7) #Malawi_Phalombe
+fun_clin(loc8n,loc8) #Malawi_Lilongwe
+fun_clin(loc9n,loc9) #Malawi_Chitipa
+
+##################################################
+## Calculating prevalence in 2 to 10-years
+## Point prevalence over the year after 
+which(loc1$year == 1.92308e-02)
+which(loc1$year == 3)
+
+fun_prev = function(dat1n,dat1){
+  effect = (dat1n$prev_2_10 -
+              dat1$prev_2_10) / 
+    dat1n$prev_2_10
+  return(c(effect[313], ## 1 year after the start of the intervention
+           effect[365], ## 1 year after the start of the intervention
+           effect[417])) ## 1 year after the start of the intervention
+}
+
+fun_prev(loc1n,loc1) #Burkina1_Diebougou
+fun_prev(loc2n,loc2) #Burkina2_Danu
+fun_prev(loc3n,loc3) #Mali_Baroueli
+fun_prev(loc4n,loc4) #Mali_Bla
+fun_prev(loc5n,loc5) #Mali_Kati
+fun_prev(loc6n,loc6) #Mali_Koulikoro
+fun_prev(loc7n,loc7) #Malawi_Phalombe
+fun_prev(loc8n,loc8) #Malawi_Lilongwe
+fun_prev(loc9n,loc9) #Malawi_Chitipa

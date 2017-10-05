@@ -130,7 +130,7 @@ for (i in 1:3){
 
 ##Read in the csv with the appropriate data
 ## ON COMP
-for (i in 1:3){
+for (i in 3){
   COV_RES_MOZO(site=1,
                itn_repel_fun=inp[i,2], itn_repel_gamb_ss=inp[i,3], itn_repel_arab=inp[i,4], 
                itn_kill_fun=inp[i,5], itn_kill_gamb_ss=inp[i,6], itn_kill_arab=inp[i,7],
