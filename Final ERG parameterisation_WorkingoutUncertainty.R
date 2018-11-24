@@ -2,19 +2,19 @@ require(lme4)
 require(RColorBrewer)
 require(scales)
 
-printed = "Standard G2 LN"
-is.pbo = 0 #says whether pbo net (0 = standard, 1= PBO, 2=G2_nets)
+printed = "PBO"
+is.pbo = 2 #says whether pbo net (0 = standard, 1= PBO, 2=G2_nets)
 species =  1#1 = gambiae ss, 2=arabiensis , 3=funestus
 metric = 1 #1 = best guess, 2= lower 95% confidence interval 3 upper
-
+metric_change = 1
 #Assay to hut mortality conversion		
 alpha1=	array(c(rep(0.63445,3),rep(0.012,3),rep(1.294,3)),c(3,3))
 alpha2=	array(c(rep(3.997,3),rep(3.171,3),rep(5.119,3)),c(3,3))
 
 #Benefit of PBO in assay		
-beta1=	array(c(rep(3.407,2),2.527,rep(2.666,2),1.528,rep(4.331,2),3.547),c(3,3))
-beta2=	array(c(rep(5.88,2),0.891,rep(4.754,2),(0.128),rep(6.956,2),1.882),c(3,3))
-beta3=	array(c(rep(0.783,2),0,rep(0.543,2),0,rep(1.038,2),0),c(3,3))
+beta1=	array(c(rep(3.407,2),2.527,rep(4.331,2),3.547,rep(2.666,2),1.528),c(3,3))
+beta2=	array(c(rep(5.88,2),0.891,rep(6.956,2),1.882,rep(4.754,2),0.128),c(3,3))
+beta3=	array(c(rep(0.783,2),0,rep(1.038,2),0,rep(0.543,2),0),c(3,3))
 
 #Deterency from mortality		
 delta1=	array(c(rep(0.071,3),rep(0.17,3),rep(0.255,3)),c(3,3))
@@ -36,7 +36,7 @@ net_halflife=2.64
 ##1-0.11 Kagera West study
 #c(0.922,0.455)#
 
-surv_bioassay=seq(0,1,0.01)		#measure of resistance 0=no resistance 1=100% survival in discriminating dose bioassay}
+surv_bioassay=seq(0,1,0.2)		#measure of resistance 0=no resistance 1=100% survival in discriminating dose bioassay}
 
 pbo_benefit_a<-beta1[species,metric]+beta2[species,metric]*((1-surv_bioassay)-0.5)/(1+beta3[species,metric]*((1-surv_bioassay)-0.5))   
 pbo_benefit<-exp(pbo_benefit_a)/(1+exp(pbo_benefit_a))
@@ -49,11 +49,18 @@ pbo_benefit<-exp(pbo_benefit_a)/(1+exp(pbo_benefit_a))
 #summary(glm_2)$coeff[2,1] =4.024976
 #summary(glm_2)$coeff[1,1] =0.08905463
 
-G2_benefit = 1 / (1 + exp(-4.024976 * (1 / (1 + exp(0.63 + 4*(surv_bioassay-0.5)))) - 0.08905463 ))
+G2_benefit = array(dim=c(length(surv_bioassay),3))
+G2_benefit[,1] = 1 / (1 + exp(-4.024976 * (1 / (1 + exp(0.63 + 4*(surv_bioassay-0.5)))) - 0.08905463 ))
+G2_benefit[,2] = 1 / (1 + exp(-3.613 * (1 / (1 + exp(0.63 + 4*(surv_bioassay-0.5)))) - -0.032 ))
+G2_benefit[,3] = 1 / (1 + exp(-4.437 * (1 / (1 + exp(0.63 + 4*(surv_bioassay-0.5)))) - 0.210 ))
 
-mort_assay=if(is.pbo==0) 1-surv_bioassay else if(is.pbo==1) pbo_benefit else G2_benefit
-mort_hut_a = alpha1[species,metric] + alpha2[species,metric]*(mort_assay-0.5)			              	#relationship mortality in bioassay -> hut trial, logit scale}
+mort_assay=if(is.pbo==0) 1-surv_bioassay else if(is.pbo==1) pbo_benefit else G2_benefit[,metric_change]
+mort_hut_a = alpha1[species,metric_change] + alpha2[species,metric]*(mort_assay-0.5)			              	#relationship mortality in bioassay -> hut trial, logit scale}
 mort_hut   = exp(mort_hut_a)/(1+exp(mort_hut_a))
+
+#plot(mort_hut,ylim=c(0,1))
+#lines(mort_hut,lty=2,col="darkred")
+
 
 det_hut_a = delta1[species,metric]+delta2[species,metric]*(mort_hut-0.5)+delta3[species,metric]*(mort_hut-0.5)^2	#relationship hut trial mortality -> deterrence}
 det_hut   = ifelse(det_hut_a<0,0,det_hut_a)			                  #censored to stop becoming negative}
@@ -151,7 +158,7 @@ for(i in 1:length(ERG_d_ITN0)){
 checks = seq(1,101,by=10)
 
 plot(deaths_over_time[,1] ~ time,ylim=c(0,1),pch="")
-  for(i in c(checks)){
+  for(i in 1:ncol(deaths_over_time)){
   lines(deaths_over_time[,i] ~ time,col="blue")
   lines(repeats_over_time[,i] ~ time,col="orange")
   lines(succ_fed_over_time[,i]~ time,col="darkred")
@@ -244,7 +251,7 @@ my.kill.det<-100-my.death-a.det
 
 my.x100<-(1-surv_bioassay)*100
 
-plot(mort_assay,my.success.kill,type="n",main=printed,cex.lab=1.6,cex.axis=1.6,cex.main=1.6,
+plot(mort_assay,my.success.kill,type="n",main="",cex.lab=1.6,cex.axis=1.6,cex.main=1.6,
      xlim=c(0,100),ylim=c(0,100),las=1,xlab="Resistance test (% survival)",ylab="Probability (%)")
 polygon(c(my.x100,rev(my.x100)),c(rep(0,length(my.x100)),rep(100,length(my.x100))),col=my.cols[1],border=my.cols[1])
 polygon(c(my.x100,rev(my.x100)),c(rep(0,length(my.x100)),my.success.kill),col=my.cols[3],border=my.cols[3])
