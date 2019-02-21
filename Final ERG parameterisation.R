@@ -3,7 +3,7 @@ require(RColorBrewer)
 require(scales)
 
 printed = "Standard G2 LN"
-is.pbo = 0 #says whether pbo net (0 = standard, 1= PBO, 2=G2_nets)
+is.pbo = 2 #says whether pbo net (0 = standard, 1= PBO, 2=G2_nets)
 species =  1#1 = gambiae ss, 2=arabiensis , 3=funestus
 metric = 1 #1 = best guess, 2= lower 95% confidence interval 3 upper
 
@@ -14,7 +14,7 @@ alpha2=	array(c(rep(3.997,3),rep(3.171,3),rep(5.119,3)),c(3,3))
 #Benefit of PBO in assay		
 beta1=	array(c(rep(3.407,2),2.527,rep(2.666,2),1.528,rep(4.331,2),3.547),c(3,3))
 beta2=	array(c(rep(5.88,2),0.891,rep(4.754,2),(0.128),rep(6.956,2),1.882),c(3,3))
-beta3=	array(c(rep(0.783,2),0,rep(0.543,2),0,rep(1.038,2),0),c(3,3))
+beta3=	array(c(rep(0.783,2),0,rep(1.038,2),0,rep(0.543,2),0),c(3,3))
 
 #Deterency from mortality		
 delta1=	array(c(rep(0.071,3),rep(0.17,3),rep(0.255,3)),c(3,3))
@@ -36,20 +36,41 @@ net_halflife=2.64
 ##1-0.11 Kagera West study
 #c(0.922,0.455)#
 
-surv_bioassay=seq(0,1,0.01)		#measure of resistance 0=no resistance 1=100% survival in discriminating dose bioassay}
+surv_bioassay=seq(0,1,0.2)		#measure of resistance 0=no resistance 1=100% survival in discriminating dose bioassay}
 
-pbo_benefit_a<-beta1[species,metric]+beta2[species,metric]*((1-surv_bioassay)-0.5)/(1+beta3[species,metric]*((1-surv_bioassay)-0.5))   
+##lower benefit (using Tom's paper translations)
+pbo_benefit_a2<-2.666 + 4.754*((1-surv_bioassay)-0.5)/(1+1.038*((1-surv_bioassay)-0.5))   
+pbo_benefit<-exp(pbo_benefit_a2)/(1+exp(pbo_benefit_a2))
+
+##upper benefit (using Tom's paper translations)
+pbo_benefit_a3<-4.331 + 6.956*((1-surv_bioassay)-0.5)/(1+0.543*((1-surv_bioassay)-0.5))   
+pbo_benefit<-exp(pbo_benefit_a3)/(1+exp(pbo_benefit_a3))
+
+##mean benefit (using Tom's paper translations)
+pbo_benefit_a<-3.407 + 5.880*((1-surv_bioassay)-0.5)/(1+0.783*((1-surv_bioassay)-0.5))   
 pbo_benefit<-exp(pbo_benefit_a)/(1+exp(pbo_benefit_a))
+
+
 
 #Benefit of PBO in assay		
 #Using log binomial fit
 ## output is summary(glm_2)$coeff[2,1] from IVCC_New_net_comparison
 # I think 0.63 and 4 comes from Churcher et al. 2016 and determins the relationship for standard LLIN
 #from IVCC_New_net_comparisons.r 
-#summary(glm_2)$coeff[2,1] =4.024976
-#summary(glm_2)$coeff[1,1] =0.08905463
+#summary(glm_2)$coeff[2,1] =4.279052
+#summary(glm_2)$coeff[1,1] =-0.05964997
 
-G2_benefit = 1 / (1 + exp(-4.024976 * (1 / (1 + exp(0.63 + 4*(surv_bioassay-0.5)))) - 0.08905463 ))
+#lower1 =3.449297 (these are mean +/- 1.96 x SE)
+#lower2 = -0.2940463
+
+#upper1 =5.108807
+#upper2 =0.1747464
+
+G2_benefit = 1 / (1 + exp(-4.279052 * (1 / (1 + exp(0.63 + 4*(surv_bioassay-0.5)))) -  -0.05964997 ))
+
+G2_benefit_log_upp = 1 / (1 + exp(-5.108807 * (1 / (1 + exp(0.63 + 4*(surv_bioassay-0.5)))) - 0.1747464 ))
+G2_benefit_log_low = 1 / (1 + exp(-3.449297 * (1 / (1 + exp(0.63 + 4*(surv_bioassay-0.5)))) - -0.2940463 ))
+
 
 mort_assay=if(is.pbo==0) 1-surv_bioassay else if(is.pbo==1) pbo_benefit else G2_benefit
 mort_hut_a = alpha1[species,metric] + alpha2[species,metric]*(mort_assay-0.5)			              	#relationship mortality in bioassay -> hut trial, logit scale}
@@ -187,8 +208,8 @@ ERG_r_ITN0[21];ERG_d_ITN0[21];itn_half_life[21]
 ## 50 resistance
 ERG_r_ITN0[11];ERG_d_ITN0[11];itn_half_life[11]
 
-data.frame(ERG_r_ITN0,ERG_r_ITN0,ERG_r_ITN0,ERG_d_ITN0,ERG_d_ITN0,ERG_d_ITN0,itn_half_life)
-
+G2_nets = data.frame(ERG_r_ITN0,ERG_r_ITN0,ERG_r_ITN0,ERG_d_ITN0,ERG_d_ITN0,ERG_d_ITN0,itn_half_life)
+write.csv(G2_nets,"H:\\Ellie\\Prioritisation\\G2_nets_low_parameterisations.csv")
 ##IVCC G2 runs
 
 ##mortality 30% = [71]
